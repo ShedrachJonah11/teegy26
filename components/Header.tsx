@@ -20,7 +20,7 @@ export default function Header() {
           href="/"
           className={`font-serif text-xl font-semibold tracking-wide ${isHome ? "text-white" : "text-copper"}`}
         >
-          T &amp; B
+          T &amp; G
         </Link>
         <nav className="flex items-center gap-8 text-[13px] font-medium tracking-[0.12em] uppercase">
           <Link

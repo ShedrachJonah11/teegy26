@@ -26,7 +26,7 @@ export default function HeroCarousel({ images }: HeroCarouselProps) {
           src={src}
           alt="Tabitha & Babajide"
           fill
-          className={`object-cover object-top transition-opacity duration-[1500ms] ease-in-out ${
+          className={`object-cover object-center transition-opacity duration-[1500ms] ease-in-out ${
             i === current ? "opacity-100" : "opacity-0"
           }`}
           priority={i === 0}
@@ -42,10 +42,10 @@ export default function HeroCarousel({ images }: HeroCarouselProps) {
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-all duration-300 ${
                 i === current
                   ? "bg-white w-6"
-                  : "bg-white/40 hover:bg-white/60"
+                  : "bg-white/40 hover:bg-white/60 w-2"
               }`}
             />
           ))}
