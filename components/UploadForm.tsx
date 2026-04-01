@@ -24,6 +24,7 @@ export default function UploadForm() {
   const [isDone, setIsDone] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
 
   const validateFiles = useCallback((incoming: FileList | File[]): File[] => {
     const valid: File[] = [];
@@ -40,6 +41,17 @@ export default function UploadForm() {
     if (!e.target.files) return;
     setFiles(validateFiles(e.target.files));
     setIsDone(false);
+  }
+
+  function handleCameraCapture(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) return;
+    const captured = validateFiles(e.target.files);
+    setFiles((prev) => {
+      const combined = [...prev, ...captured];
+      return combined.slice(0, MAX_FILES);
+    });
+    setIsDone(false);
+    if (cameraRef.current) cameraRef.current.value = "";
   }
 
   function handleDrop(e: React.DragEvent) {
@@ -129,6 +141,7 @@ export default function UploadForm() {
       setIsDone(true);
       setFiles([]);
       if (inputRef.current) inputRef.current.value = "";
+      if (cameraRef.current) cameraRef.current.value = "";
     }
   }
 
@@ -198,6 +211,41 @@ export default function UploadForm() {
           </div>
         </div>
       </div>
+
+      {/* Camera capture */}
+      <input
+        ref={cameraRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handleCameraCapture}
+        className="hidden"
+      />
+      <button
+        type="button"
+        onClick={() => cameraRef.current?.click()}
+        className="w-full flex items-center justify-center gap-2 border border-muted-lighter bg-white rounded-lg py-3 text-sm text-charcoal font-medium hover:border-charcoal/20 transition-colors"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={1.5}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"
+          />
+        </svg>
+        Take a photo
+      </button>
 
       {/* Selected files */}
       {files.length > 0 && !isUploading && (
