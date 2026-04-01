@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
-import { supabase, BUCKET_NAME } from "@/lib/supabase";
+import { getSupabase, BUCKET_NAME } from "@/lib/supabase";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 const MAX_FILES = 10;
@@ -74,6 +74,7 @@ export default function UploadForm() {
     }));
     setFileProgress([...progress]);
 
+    const supabase = getSupabase();
     for (let i = 0; i < files.length; i++) {
       try {
         progress[i] = { ...progress[i], status: "compressing", progress: 30 };

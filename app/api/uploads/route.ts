@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
   const safeLimit = Math.min(limit, 50);
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("uploads")
     .select("*")
     .order("created_at", { ascending: false })

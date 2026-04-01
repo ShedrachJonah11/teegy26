@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import type { Upload } from "@/lib/types";
 
 const PAGE_SIZE = 20;
@@ -17,7 +17,7 @@ export default function Gallery() {
   const [lightbox, setLightbox] = useState<Upload | null>(null);
 
   const fetchPhotos = useCallback(async (offset: number) => {
-    const { data, error: fetchError } = await supabase
+    const { data, error: fetchError } = await getSupabase()
       .from("uploads")
       .select("*")
       .order("created_at", { ascending: false })
